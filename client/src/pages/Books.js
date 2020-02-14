@@ -5,6 +5,9 @@ import { Col, Row, Container } from "../components/Grid";
 import { List, ListItem } from "../components/List";
 import { TextArea, FormBtn } from "../components/Form";
 import AutoCompleteTxt from "../components/Form/AutoCompleteTxt";
+import USStatesList from "../components/Form/us-statesList";
+
+
 
 import API from "../utils/API";
 
@@ -99,19 +102,19 @@ class Books extends Component {
               <h1>Search By State or Province</h1>
             </Jumbotron>
             <form>
-              <AutoCompleteTxt
+              <AutoCompleteTxt items={USStatesList}
                 value={this.state.title}
                 onChange={this.handleInputChange}
-                name="title"
-                type="text"
-                placeholder="State (required)"
+              // name="title"
+              // type="text"
+              // placeholder="State (required)"
               />
-              <AutoCompleteTxt
+              {/* <AutoCompleteTxt
                 value={this.state.author}
                 onChange={this.handleInputChange}
                 name="author"
                 type="text"
-              />
+              /> */}
               <TextArea
                 value={this.state.synopsis}
                 onChange={this.handleInputChange}
