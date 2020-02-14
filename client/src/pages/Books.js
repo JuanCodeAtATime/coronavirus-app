@@ -3,8 +3,8 @@ import Jumbotron from "../components/Jumbotron";
 import DeleteBtn from "../components/DeleteBtn";
 import { Col, Row, Container } from "../components/Grid";
 import { List, ListItem } from "../components/List";
-import { Input, TextArea, FormBtn } from "../components/Form";
-import AutoCompleteTxt from "../components/AutoCompleteTxt";
+import { TextArea, FormBtn } from "../components/Form";
+import AutoCompleteTxt from "../components/Form/AutoCompleteTxt";
 
 import API from "../utils/API";
 
@@ -59,6 +59,18 @@ class Books extends Component {
     });
   };
 
+  onTextChanged = (e) => {
+    const value = e.target.value;
+    let suggestions = [];
+    if (value.length > 0) {
+      const regex = new RegExp(`^${value}`, 'i');
+      suggestions = this.items.sort().filter(v => regex.test(v));
+    }
+    this.setState(() => ({ suggestions, text: value }));
+  }
+
+
+
   // When the form is submitted, use the API.saveBook method to save the book data
   // Then reload books from the database
   handleFormSubmit = event => {
@@ -87,21 +99,18 @@ class Books extends Component {
               <h1>Search By State or Province</h1>
             </Jumbotron>
             <form>
-              <AutoCompleteTxt></AutoCompleteTxt>
-              <Input
-                className="state"
+              <AutoCompleteTxt
                 value={this.state.title}
                 onChange={this.handleInputChange}
                 name="title"
-                placeholder="State or Province (required)"
-
-
+                type="text"
+                placeholder="State (required)"
               />
-              <Input
+              <AutoCompleteTxt
                 value={this.state.author}
                 onChange={this.handleInputChange}
                 name="author"
-                placeholder="City (required)"
+                type="text"
               />
               <TextArea
                 value={this.state.synopsis}
@@ -110,7 +119,7 @@ class Books extends Component {
                 placeholder="My Notes (Optional)"
               />
               <FormBtn
-                disabled={!(this.state.author && this.state.title)}
+                // disabled={!(this.state.author && this.state.title)}
                 onClick={this.handleFormSubmit}
               >
                 Submit Book</FormBtn>
