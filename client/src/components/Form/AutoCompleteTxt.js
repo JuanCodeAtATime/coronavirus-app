@@ -1,5 +1,5 @@
 import React from "react";
-import "./autoComplete.css";
+import "./style.css";
 
 
 export default class AutoCompleteTxt extends React.Component {
@@ -11,6 +11,7 @@ export default class AutoCompleteTxt extends React.Component {
 
         };
     }
+
 
     onTextChanged = (e) => {
         const { items } = this.props;
@@ -45,21 +46,23 @@ export default class AutoCompleteTxt extends React.Component {
     }
 
 
-    render() {
+    render(props) {
         const { text } = this.state;
         return (
             <div className="form-group autoComplete">
-                <input
+                <input {...props}
                     className="form-control"
                     onChange={this.onTextChanged}
                     type="text"
                     value={text}
-                    placeholder="State (required)"
+                // placeholder="State (required)"
                 />
+
                 {this.renderSuggestions()}
             </div>
         )
     }
 }
+
 
 

@@ -1,15 +1,16 @@
 import React, { Component } from "react";
-import Jumbotron from "../components/Jumbotron";
+import API from "../utils/API";
 import DeleteBtn from "../components/DeleteBtn";
+import { Link } from "react-router-dom";
+import Jumbotron from "../components/Jumbotron";
 import { Col, Row, Container } from "../components/Grid";
 import { List, ListItem } from "../components/List";
 import { TextArea, FormBtn } from "../components/Form";
 import AutoCompleteTxt from "../components/Form/AutoCompleteTxt";
-import USStatesList from "../components/Form/us-statesList";
+import statesList from "../components/Form/us-statesList";
+import countriesList from "../components/Form/countriesList";
 
 
-
-import API from "../utils/API";
 
 class Books extends Component {
   // Initialize this.state.books as an empty array
@@ -62,17 +63,6 @@ class Books extends Component {
     });
   };
 
-  onTextChanged = (e) => {
-    const value = e.target.value;
-    let suggestions = [];
-    if (value.length > 0) {
-      const regex = new RegExp(`^${value}`, 'i');
-      suggestions = this.items.sort().filter(v => regex.test(v));
-    }
-    this.setState(() => ({ suggestions, text: value }));
-  }
-
-
 
   // When the form is submitted, use the API.saveBook method to save the book data
   // Then reload books from the database
@@ -89,11 +79,9 @@ class Books extends Component {
     }
   };
 
-
-
-
   render() {
     console.log(this.props)
+    const { text } = this.state;
     return (
       <Container fluid>
         <Row>
@@ -102,19 +90,14 @@ class Books extends Component {
               <h1>Search By State or Province</h1>
             </Jumbotron>
             <form>
-              <AutoCompleteTxt items={USStatesList}
-                value={this.state.title}
-                onChange={this.handleInputChange}
-              // name="title"
-              // type="text"
-              // placeholder="State (required)"
+              <AutoCompleteTxt items={statesList}
+                value={this.state.title && text}
+                placeholder="Search by US State"
               />
-              {/* <AutoCompleteTxt
-                value={this.state.author}
-                onChange={this.handleInputChange}
-                name="author"
-                type="text"
-              /> */}
+              <AutoCompleteTxt items={countriesList}
+                value={this.state.author && text}
+                placeholder="Search by country"
+              />
               <TextArea
                 value={this.state.synopsis}
                 onChange={this.handleInputChange}
@@ -122,7 +105,7 @@ class Books extends Component {
                 placeholder="My Notes (Optional)"
               />
               <FormBtn
-                // disabled={!(this.state.author && this.state.title)}
+                disabled={!(this.state.author && this.state.title)}
                 onClick={this.handleFormSubmit}
               >
                 Submit Book</FormBtn>
@@ -137,11 +120,11 @@ class Books extends Component {
                 {this.state.books.map(book => {
                   return (
                     <ListItem key={book._id}>
-                      <a href={"/books/" + book._id}>
+                      <Link to={"/books/" + book._id}>
                         <strong>
                           {book.title} by {book.author}
                         </strong>
-                      </a>
+                      </Link>
                       <DeleteBtn onClick={() => this.deleteBook(book._id)} />
                     </ListItem>
                   );
