@@ -1,5 +1,5 @@
 import React from "react";
-import "./style.css";
+import "./style.css"
 
 
 export default class AutoCompleteTxt extends React.Component {
@@ -7,11 +7,9 @@ export default class AutoCompleteTxt extends React.Component {
         super(props);
         this.state = {
             suggestions: [],
-            text: '',
-
+            text: ''
         };
     }
-
 
     onTextChanged = (e) => {
         const { items } = this.props;
@@ -25,7 +23,7 @@ export default class AutoCompleteTxt extends React.Component {
     }
 
 
-    suggestionSelected(value) {
+    suggestionSelected = (value) => {
         this.setState(() => ({
             text: value,
             suggestions: [],
@@ -33,36 +31,30 @@ export default class AutoCompleteTxt extends React.Component {
     }
 
 
-    renderSuggestions() {
+    renderSuggestions = () => {
         const { suggestions } = this.state;
         if (suggestions.length === 0) {
             return null;
         }
         return (
             <ul>
-                {suggestions.map((item) => <li onClick={() => this.suggestionSelected()}>{item}</li>)}
+                {suggestions.map((item, index) => <li key={index} onClick={(e) => this.suggestionSelected(item)}>{item}</li>)}
             </ul>
         );
     }
 
-
-    render(props) {
+    render() {
         const { text } = this.state;
         return (
             <div className="form-group autoComplete">
-                <input {...props}
+                <input
                     className="form-control"
                     onChange={this.onTextChanged}
-                    type="text"
                     value={text}
-                // placeholder="State (required)"
+                    {...this.props}
                 />
-
                 {this.renderSuggestions()}
             </div>
         )
     }
 }
-
-
-

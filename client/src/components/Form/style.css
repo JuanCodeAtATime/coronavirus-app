@@ -1,7 +1,21 @@
+/* Style for the autcomplete/dropdown list items*/
+
 .autoComplete ul {    
 list-style-type: none;
 text-align: left;
 margin: 0;
 padding: 0;
+border-top: 1px solid gray;
+}
+
+.autoComplete li {       
+padding: 10px 5px;
 cursor: pointer;
 }
+
+.autoComplete li:hover {    
+background-color: rgba(128, 128, 128, 0.20);
+}
+
+
+    
